@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kedai Serenade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #2c9b9b 0%, #1e7373 100%);
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px 40px;
+        }
+
+        .logo {
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 45px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Map Section */
+        .map-section {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            background: #e0e0e0;
+        }
+
+        .map-section iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(0%);
+        }
+
+        /* Contact Form Section */
+        .contact-section {
+            max-width: 1200px;
+            margin: -80px auto 60px;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .contact-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 50px 60px;
+        }
+
+        .contact-header {
+            margin-bottom: 35px;
+        }
+
+        .contact-header h2 {
+            font-size: 28px;
+            color: #2c9b9b;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+        }
+
+        .form-left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2c9b9b;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(44, 155, 155, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+            font-family: inherit;
+        }
+
+        .category-section h3,
+        .link-section h3 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .category-grid,
+        .link-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .category-item,
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-item:hover,
+        .link-item:hover {
+            background: #2c9b9b;
+            color: white;
+        }
+
+        .category-item input[type="checkbox"],
+        .link-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .category-item label,
+        .link-item label {
+            font-size: 13px;
+            cursor: pointer;
+            color: #555;
+            margin: 0;
+        }
+
+        .category-item:hover label,
+        .link-item:hover label {
+            color: white;
+        }
+
+        .link-section {
+            margin-top: 25px;
+        }
+
+        .submit-btn {
+            margin-top: 30px;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #2c9b9b 0%, #1e7373 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(44, 155, 155, 0.3);
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 155, 155, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #2c9b9b 0%, #1e7373 100%);
+            color: white;
+            padding: 40px 40px 25px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links a:hover {
+            background: white;
+            color: #2c9b9b;
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            font-size: 13px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .footer-text a {
+            color: #ffd700;
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        /* Tablet Responsive (768px - 1024px) */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 15px 30px;
+            }
+
+            .nav-links {
+                gap: 30px;
+            }
+
+            .contact-section {
+                padding: 0 30px;
+            }
+
+            .contact-container {
+                padding: 40px 40px;
+            }
+
+            .form-grid {
+                gap: 30px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                height: 40px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: linear-gradient(135deg, #2c9b9b 0%, #1e7373 100%);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 0;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+                padding: 20px 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                display: block;
+                width: 100%;
+            }
+
+            .map-section {
+                height: 350px;
+            }
+
+            .contact-section {
+                margin: -60px auto 40px;
+                padding: 0 20px;
+            }
+
+            .contact-container {
+                padding: 30px 25px;
+                border-radius: 8px;
+            }
+
+            .contact-header h2 {
+                font-size: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .form-left {
+                gap: 20px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                font-size: 16px;
+            }
+
+            .form-group textarea {
+                min-height: 120px;
+            }
+
+            .category-grid,
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-item,
+            .link-item {
+                padding: 12px;
+            }
+
+            .submit-btn {
+                padding: 16px 40px;
+                font-size: 16px;
+            }
+
+            footer {
+                padding: 30px 20px 20px;
+                margin-top: 40px;
+            }
+
+            .social-links {
+                gap: 20px;
+            }
+
+            .footer-text {
+                font-size: 12px;
+                padding: 0 10px;
+            }
+        }
+
+        /* Small Mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+            nav {
+                padding: 12px 15px;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            .map-section {
+                height: 300px;
+            }
+
+            .contact-section {
+                margin: -50px auto 30px;
+                padding: 0 15px;
+            }
+
+            .contact-container {
+                padding: 25px 20px;
+            }
+
+            .contact-header h2 {
+                font-size: 20px;
+            }
+
+            .category-section h3,
+            .link-section h3 {
+                font-size: 15px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+            }
+
+            .category-item label,
+            .link-item label {
+                font-size: 12px;
+            }
+
+            .social-links a {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .footer-text {
+                font-size: 11px;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .map-section {
+                height: 250px;
+            }
+
+            .nav-links {
+                height: calc(100vh - 60px);
+                padding-top: 20px;
+            }
+
+            .nav-links li {
+                padding: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 850 400'%3E%3Ctext x='50' y='280' font-family='serif' font-size='220' font-weight='bold' fill='%23ffffff' letter-spacing='-5'%3ESERENADE%3C/text%3E%3C/svg%3E" alt="Serenade Logo" class="logo">
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#pesan">Pesan</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="map-section">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.0837825944397!2d112.72780931477457!3d-7.313282594724442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTgnNDcuOCJTIDExMsKwNDMnNDguMCJF!5e0!3m2!1sen!2sid!4v1234567890123!5m2!1sen!2sid"
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+
+    <section class="contact-section" id="pesan">
+        <div class="contact-container">
+            <div class="contact-header">
+                <h2>Nama Pengguna</h2>
+            </div>
+
+            <form class="form-grid">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Masukkan email Anda">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pesan">Pesan</label>
+                        <textarea id="pesan" placeholder="Tulis pesan Anda di sini..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Kirim Pesan</button>
+                </div>
+
+                <div class="form-right">
+                    <div class="category-section">
+                        <h3>category</h3>
+                        <div class="category-grid">
+                            <div class="category-item">
+                                <input type="checkbox" id="category1">
+                                <label for="category1">category</label>
+                            </div>
+                            <div class="category-item">
+                                <input type="checkbox" id="category2">
+                                <label for="category2">category</label>
+                            </div>
+                            <div class="category-item">
+                                <input type="checkbox" id="category3">
+                                <label for="category3">category</label>
+                            </div>
+                            <div class="category-item">
+                                <input type="checkbox" id="category4">
+                                <label for="category4">category</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="link-section">
+                        <h3>link cliemt</h3>
+                        <div class="link-grid">
+                            <div class="link-item">
+                                <input type="checkbox" id="link1">
+                                <label for="link1">link anda</label>
+                            </div>
+                            <div class="link-item">
+                                <input type="checkbox" id="link2">
+                                <label for="link2">link anda</label>
+                            </div>
+                            <div class="link-item">
+                                <input type="checkbox" id="link3">
+                                <label for="link3">link anda</label>
+                            </div>
+                            <div class="link-item">
+                                <input type="checkbox" id="link4">
+                                <label for="link4">link anda</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/kedaiserenade" target="_blank" title="Instagram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://tiktok.com/@kedaiserenade" target="_blank" title="TikTok">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="footer-text">
+                <p>© 2025 Kedai Serenade. All right reserved<br>Contact us: <a href="https://www.instagram.com/kedaiserenade?gsm=MTYgMTphLkdDaaZ==">https://www.instagram.com/kedaiserenade</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburger.contains(event.target);
+            
+            if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Smooth scrolling untuk navigasi
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Terima kasih! Pesan Anda telah dikirim.');
+            this.reset();
+        });
+
+        // Hover effect untuk category dan link items
+        document.querySelectorAll('.category-item, .link-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    checkbox.checked = !checkbox.checked;
+                }
+            });
+        });
+
+        // Prevent zoom on input focus (iOS)
+        document.querySelectorAll('input, textarea').forEach(element => {
+            element.addEventListener('focus', function() {
+                this.style.fontSize = '16px';
+            });
+        });
+    </script>
+</body>
+</html>
