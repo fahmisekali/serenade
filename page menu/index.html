@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenade Restaurant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #126354;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #14a085 0%, #0d7a66 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            border: 2px solid white;
+            padding: 0.5rem 1rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #b3e5db;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-nav {
+            display: none;
+            background-color: #0d7a66;
+            padding: 1rem 1.5rem;
+        }
+
+        .mobile-nav.active {
+            display: block;
+        }
+
+        .mobile-nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 0;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .dropdown-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            background-color: #0d7a66;
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-btn:hover {
+            background-color: #14a085;
+        }
+
+        .dropdown-icon {
+            transition: transform 0.3s;
+        }
+
+        .dropdown-icon.rotate {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            z-index: 100;
+            display: none;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            color: #333;
+        }
+
+        .dropdown-item:hover {
+            background-color: #e6f7f4;
+        }
+
+        .dropdown-item.selected {
+            background-color: #b3e5db;
+            color: #0d7a66;
+            font-weight: 600;
+        }
+
+        .menu-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        .category-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .menu-content {
+            padding: 1.5rem;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-name {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #1f2937;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .star-icon {
+            width: 24px;
+            height: 24px;
+            fill: #d1d5db;
+            stroke: #d1d5db;
+        }
+
+        .star-icon.active {
+            fill: #fbbf24;
+            stroke: #fbbf24;
+        }
+
+        .menu-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="WhatsApp_Image_2025-10-02_at_13.05.15-removebg-preview.png" alt="Serenade" style="height: 65px;">
+            <nav id="desktopNav">
+                <a onclick="navigateTo('beranda')">BERANDA</a>
+                <a onclick="navigateTo('tentang')">TENTANG</a>
+                <a onclick="navigateTo('menu')">MENU</a>
+                <a onclick="navigateTo('pesan')">PESAN</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <a onclick="navigateTo('beranda')">BERANDA</a>
+            <a onclick="navigateTo('tentang')">TENTANG</a>
+            <a onclick="navigateTo('menu')">MENU</a>
+            <a onclick="navigateTo('pesan')">PESAN</a>
+        </div>
+    </header>
+
+    <div class="dropdown-section">
+        <div class="dropdown-container">
+            <button class="dropdown-btn" onclick="toggleDropdown()">
+                Menu Pilihan
+                <span class="dropdown-icon" id="dropdownIcon">▼</span>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item selected" onclick="selectCategory('Makanan')">Makanan</div>
+                <div class="dropdown-item" onclick="selectCategory('Minuman')">Minuman</div>
+                <div class="dropdown-item" onclick="selectCategory('Dessert')">Dessert</div>
+                <div class="dropdown-item" onclick="selectCategory('Snack')">Snack</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu-section">
+        <h2 class="category-title" id="categoryTitle">Makanan</h2>
+        <div class="menu-grid" id="menuGrid"></div>
+    </div>
+
+    <script>
+        function initMenuData() {
+            var data = {};
+            
+            data.Makanan = [];
+            data.Makanan.push({id: "mie-gayabaru-telor", name: "Mie Gayabaru Telor", price: "15K", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=400&h=400&fit=crop", favorite: true});
+            data.Makanan.push({id: "bakso-iegawa", name: "Bakso Iegawa", price: "12K", image: "https://images.unsplash.com/photo-1504278770949-a35e2df5a4e6?w=400&h=400&fit=crop", favorite: false});
+            data.Makanan.push({id: "kentang-goreng", name: "Kentang Goreng", price: "10K", image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=400&fit=crop", favorite: true});
+            data.Makanan.push({id: "mie-gayabaru-dobel", name: "Mie Gayabaru Dobel Telor", price: "20K", image: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400&h=400&fit=crop", favorite: false});
+            data.Makanan.push({id: "mie-gayabaru", name: "Mie Gayabaru", price: "7K", image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=400&fit=crop", favorite: false});
+            data.Makanan.push({id: "pentol", name: "Pentol", price: "2K", image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=400&fit=crop", favorite: false});
+            
+            data.Minuman = [];
+            data.Minuman.push({id: "es-teh", name: "Es Teh Manis", price: "5K", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=400&fit=crop", favorite: false});
+            data.Minuman.push({id: "kopi", name: "Kopi Hitam", price: "8K", image: "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&h=400&fit=crop", favorite: false});
+            
+            data.Dessert = [];
+            data.Dessert.push({id: "es-krim", name: "Es Krim", price: "8K", image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=400&fit=crop", favorite: false});
+            
+            data.Snack = [];
+            data.Snack.push({id: "keripik", name: "Keripik", price: "3K", image: "https://images.unsplash.com/photo-1600490036275-dc8f1667e6d0?w=400&h=400&fit=crop", favorite: false});
+            
+            return data;
+        }
+
+        var menuData = initMenuData();
+        var currentCategory = "Makanan";
+
+        function toggleMobileMenu() {
+            var mobileNav = document.getElementById("mobileNav");
+            if (mobileNav.classList.contains("active")) {
+                mobileNav.classList.remove("active");
+            } else {
+                mobileNav.classList.add("active");
+            }
+        }
+
+        function toggleDropdown() {
+            var dropdown = document.getElementById("dropdownMenu");
+            var icon = document.getElementById("dropdownIcon");
+            if (dropdown.classList.contains("active")) {
+                dropdown.classList.remove("active");
+                icon.classList.remove("rotate");
+            } else {
+                dropdown.classList.add("active");
+                icon.classList.add("rotate");
+            }
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            document.getElementById("categoryTitle").textContent = category;
+            
+            var items = document.querySelectorAll(".dropdown-item");
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].textContent === category) {
+                    items[i].classList.add("selected");
+                } else {
+                    items[i].classList.remove("selected");
+                }
+            }
+            
+            toggleDropdown();
+            renderMenu();
+        }
+
+        function toggleFavorite(itemId) {
+            var items = menuData[currentCategory];
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id === itemId) {
+                    items[i].favorite = !items[i].favorite;
+                    break;
+                }
+            }
+            renderMenu();
+        }
+
+        function createMenuCard(item) {
+            var card = document.createElement("div");
+            card.className = "menu-card";
+            
+            var img = document.createElement("img");
+            img.src = item.image;
+            img.alt = item.name;
+            img.className = "menu-image";
+            
+            var content = document.createElement("div");
+            content.className = "menu-content";
+            
+            var header = document.createElement("div");
+            header.className = "menu-header";
+            
+            var name = document.createElement("div");
+            name.className = "menu-name";
+            name.textContent = item.name;
+            
+            var btn = document.createElement("button");
+            btn.className = "favorite-btn";
+            btn.onclick = function() { toggleFavorite(item.id); };
+            
+            var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("class", item.favorite ? "star-icon active" : "star-icon");
+            svg.setAttribute("viewBox", "0 0 24 24");
+            
+            var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z");
+            
+            svg.appendChild(path);
+            btn.appendChild(svg);
+            
+            header.appendChild(name);
+            header.appendChild(btn);
+            
+            var price = document.createElement("div");
+            price.className = "menu-price";
+            price.textContent = item.price;
+            
+            content.appendChild(header);
+            content.appendChild(price);
+            
+            card.appendChild(img);
+            card.appendChild(content);
+            
+            return card;
+        }
+
+        function renderMenu() {
+            var menuGrid = document.getElementById("menuGrid");
+            menuGrid.innerHTML = "";
+            
+            var items = menuData[currentCategory];
+            for (var i = 0; i < items.length; i++) {
+                var card = createMenuCard(items[i]);
+                menuGrid.appendChild(card);
+            }
+        }
+
+        function navigateTo(page) {
+            var mobileNav = document.getElementById("mobileNav");
+            mobileNav.classList.remove("active");
+            alert("Navigasi ke halaman: " + page.toUpperCase());
+        }
+
+        document.addEventListener("click", function(event) {
+            var dropdown = document.getElementById("dropdownMenu");
+            var dropdownContainer = document.querySelector(".dropdown-container");
+            
+            if (dropdownContainer && !dropdownContainer.contains(event.target)) {
+                dropdown.classList.remove("active");
+                document.getElementById("dropdownIcon").classList.remove("rotate");
+            }
+        });
+
+        renderMenu();
+    </script>
+</body>
+</html>
