@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: admin/dashboard.php");
                 exit();
             } else {
-                header("Location: index.php");
+                header("Location: page-beranda/index.php");
                 exit();
             }
         } else {

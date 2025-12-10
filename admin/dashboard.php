@@ -324,10 +324,6 @@ $unread_messages = $unread_stmt->fetch_assoc()['count'] ?? 0;
                 <span class="menu-icon">📊</span>
                 <span>Dashboard</span>
             </a>
-            <a href="ratings.php" class="menu-item">
-                <span class="menu-icon">⭐</span>
-                <span>Rating & Komentar</span>
-            </a>
             <a href="chat.php" class="menu-item">
                 <span class="menu-icon">💬</span>
                 <span>Chat

@@ -327,10 +327,6 @@ if ($selected_user_id) {
                 <span>📊</span>
                 <span>Dashboard</span>
             </a>
-            <a href="ratings.php" class="menu-item">
-                <span>⭐</span>
-                <span>Rating & Komentar</span>
-            </a>
             <a href="chat.php" class="menu-item active">
                 <span>💬</span>
                 <span>Chat</span>

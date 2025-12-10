@@ -83,6 +83,31 @@
             opacity: 0.8;
         }
 
+        /* Login/Logout Button */
+        .auth-btn {
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            border-radius: 25px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .auth-btn:hover {
+            background: white;
+            color: #1a9b8e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .auth-btn::after {
+            display: none;
+        }
+
         /* Hamburger Menu */
         .hamburger {
             display: none;
@@ -129,6 +154,7 @@
             left: 0;
             right: 0;
             bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
             z-index: 1;
         }
 
@@ -157,15 +183,6 @@
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
             animation: fadeInUp 1s ease;
-        }
-
-        .hero-tagline {
-            font-size: 18px;
-            font-weight: 400;
-            line-height: 1.6;
-            max-width: 500px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-            animation: fadeInUp 1.2s ease;
         }
 
         /* Footer */
@@ -235,16 +252,16 @@
                 font-size: 22px;
             }
 
-            .hero-tagline {
-                font-size: 16px;
-            }
-
             .nav-container {
                 padding: 0 20px;
             }
 
             .hero-content {
                 padding: 0 20px;
+            }
+
+            .logo {
+                height: 50px;
             }
         }
 
@@ -255,10 +272,6 @@
 
             .hero h2 {
                 font-size: 20px;
-            }
-
-            .hero-tagline {
-                font-size: 15px;
             }
 
             .logo {
@@ -274,37 +287,40 @@
 </head>
 <body>
     <!-- Navigation -->
-<nav class="navbar">
-    <div class="nav-container">
-        <img src="logo.png" alt="Serenade Logo" class="logo">
-        <ul class="nav-menu">
-            <li><a href="../index.php">BERANDA</a></li>
-            <li><a href="../page-tentang/index.html">TENTANG</a></li>
-            <li><a href="../page menu/index.html">MENU</a></li>
-            <li><a href="../page kontak/index.html">KONTAK</a></li>
-            
-            <?php if(isset($_SESSION['user_id'])): ?>
-                <li><a href="../logout.php">LOGOUT</a></li>
-            <?php else: ?>
-                <li><a href="../login.php">LOGIN</a></li>
-            <?php endif; ?>
-        </ul>
-    </div>
-</nav>
+    <nav class="navbar">
+        <div class="nav-container">
+            <img src="WhatsApp_Image_2025-10-02_at_13.05.15-removebg-preview.png" alt="Serenade Logo" class="logo">
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../page-beranda/index.php">BERANDA</a></li>
+                <li><a href="../page-tentang/index.php">TENTANG</a></li>
+                <li><a href="../page-menu/index.php">MENU</a></li>
+                <li><a href="../page-pesan/index.php">PESAN</a></li>
+                <li>
+                    <a href="../login.php" class="auth-btn">LOGIN</a>
+                </li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
-    <section class="hero" id="heroSection">
+    <section class="hero">
         <div class="hero-content">
             <h1>Selamat Datang Di<br>Kedai Serenade</h1>
             <div class="hero-tagline">
                 <h2>"Rasakan Sensasi Nongkrong</h2>
-                <h2>Unik Di pinggir Rel Kereta Api"</h2>
+                <h2>Unik Di Pinggir Rel Kereta Api"</h2>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 Kedai Serenade. All right reserved Contact us · <a href="https://www.instagram.com/kedaiserenade?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">https://www.instagram.com/kedaiserenade?igsh=MTdY3pnYTJqZDN0aA==</a></p>
+        <p>© 2025 Kedai Serenade. All rights reserved · Contact us: <a href="https://www.instagram.com/kedaiserenade" target="_blank">Instagram @kedaiserenade</a></p>
     </footer>
 
     <script>
@@ -324,8 +340,6 @@
                 navMenu.classList.remove('active');
             });
         });
-        const logoImg = document.getElementById('logoImg');
-        const heroSection = document.getElementById('heroSection');
     </script>
 </body>
 </html>
